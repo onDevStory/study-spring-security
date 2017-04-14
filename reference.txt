@@ -2,3 +2,8 @@
   https://gs.saro.me/#!m=elec&jn=790
   https://gs.saro.me/#!m=elec&jn=791
   http://m.blog.naver.com/kimnx9006/220633299198
+
+# AuthenticationEntryPoint
+  미인증 상태에서 .anyRequest().authenticated() 에 해당하는 URL 호출 시,
+  /login 화면으로 redirect 되던 것을 401 에러코드를 던지는 것으로 변경.
+  

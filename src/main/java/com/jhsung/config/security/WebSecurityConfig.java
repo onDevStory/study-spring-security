@@ -1,5 +1,6 @@
 package com.jhsung.config.security;
 
+import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -34,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			// 로그아웃이 성공했을 경우 이동할 페이지
 			.logoutSuccessUrl("/");
+		
+		httpSecurity
+			.csrf().disable()
+			.exceptionHandling()
+				.authenticationEntryPoint(new Http401AuthenticationEntryPoint(null));
 	}
 
 }
