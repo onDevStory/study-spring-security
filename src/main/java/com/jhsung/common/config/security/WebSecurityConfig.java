@@ -1,4 +1,4 @@
-package com.jhsung.config.security;
+package com.jhsung.common.config.security;
 
 import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
