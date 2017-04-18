@@ -31,4 +31,11 @@ public class User extends MappedSuperclassTimestamp {
 
 	private boolean verified;
 
+	// secured userInfo
+	public static User secured(User user) {
+		user.setId(null);
+		user.setPassword(null);
+		return user;
+	}
+
 }

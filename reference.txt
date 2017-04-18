@@ -19,3 +19,8 @@
 # http://bcho.tistory.com/914
   REST API 디자인 가이드 
  
+# 비밀번호 암호화
+  http://d2.naver.com/helloworld/318732
+  https://slipp.net/questions/403
+  
+  

@@ -21,7 +21,7 @@ public class UserController {
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public User saveUser(@RequestBody User user) {
-		return userService.saveUser(user);
+		return User.secured(userService.saveUser(user));
 	}
 
 }
