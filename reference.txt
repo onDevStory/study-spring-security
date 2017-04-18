@@ -23,4 +23,10 @@
   http://d2.naver.com/helloworld/318732
   https://slipp.net/questions/403
   
+# User 조회
+  단건도 List 로 반환. 조회결과가 없을 경우에는 emptyList 를 반환.
+  
+# enum value lookup 으로 검색
+  http://bytefreaks.net/programming-2/java/java-create-a-lookup-table-for-an-enum
+  
   
