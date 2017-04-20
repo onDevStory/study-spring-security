@@ -1,7 +1,5 @@
 package com.jhsung.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,20 +30,5 @@ public class User extends MappedSuperclassTimestamp {
 	private String userName;
 
 	private boolean verified;
-
-	// secured userInfo
-	public static User secured(User user) {
-		user.setId(null);
-		user.setPassword(null);
-		return user;
-	}
-
-	// secured userInfoList
-	public static List<User> secured(List<User> userList) {
-		for (User user : userList) {
-			secured(user);
-		}
-		return userList;
-	}
 
 }

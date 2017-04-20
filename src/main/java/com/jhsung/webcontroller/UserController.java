@@ -2,8 +2,11 @@ package com.jhsung.webcontroller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jhsung.entity.User;
+import com.jhsung.entity.dto.UserDto;
 import com.jhsung.repository.UserRepository;
 import com.jhsung.service.UserService;
 
@@ -27,15 +31,27 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public User saveUser(@RequestBody User user) {
-		return User.secured(userService.saveUser(user));
+	@RequestMapping(value = "/isAvailableEmail", method = RequestMethod.POST)
+	public boolean isAvailableEmail(@RequestBody @Valid UserDto.Email dto, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			// throw new CustomException();
+		}
+		return userRepository.findByEmail(dto.getEmail()).isEmpty();
 	}
 
-	// TODO ADMIN 에게만 권한부여(내부 SPY), 정렬기능 추가
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	public String saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			// throw new CustomException();
+		}
+		// email 중복 시, ConstraintViolationException 500 Error 처리
+		return userService.saveUser(modelMapper.map(dto, User.class)) != null ? "success" : "fail";
+	}
+
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public List<User> findAll() {
-		return User.secured(userRepository.findAll());
+		// security & sorting
+		return userRepository.findAll();
 	}
 
 	/**
@@ -46,7 +62,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/users/{columnName}", method = RequestMethod.GET)
 	public List<User> findColumnEqualValue(@PathVariable("columnName") String columnName, @RequestParam String q) {
-		return User.secured(userService.findColumnEqualValue(columnName, q));
+		// security & sorting
+		return userService.findColumnEqualValue(columnName, q);
 	}
 
 }

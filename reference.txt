@@ -29,4 +29,7 @@
 # enum value lookup 으로 검색
   http://bytefreaks.net/programming-2/java/java-create-a-lookup-table-for-an-enum
   
+# MappedSuperclassTimestamp.java
+  @NotNull 도 되지만, @Column(nullable = false) 로 통일.
+  
   

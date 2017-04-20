@@ -19,6 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers(
 					"/",
+					"/isAvailableEmail",
 					"/users/**",
 					"/login",
 					"/logout").permitAll()
