@@ -38,4 +38,16 @@
 # http://ondevstory.tistory.com/207
   logging.level 수정
   
+# profile
+  http://ondevstory.tistory.com/208
+  http://jsonobject.tistory.com/220 - Spring Boot 프로젝트에서 Profile 적용하기
+  http://java.ihoney.pe.kr/397 - 스프링부트 로그파일 분리생성하기
+  
+# logback-local.xml 생성
+  http://java.ihoney.pe.kr/397
+  http://www.donnert.net/81
+  SKB PROJECT
+  
+  D드라이브에 로그 폴더가 생성됨.
+  
   
