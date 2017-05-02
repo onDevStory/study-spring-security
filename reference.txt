@@ -31,5 +31,11 @@
   
 # MappedSuperclassTimestamp.java
   @NotNull 도 되지만, @Column(nullable = false) 로 통일.
+
+# http://ondevstory.tistory.com/206
+  HandlerInterceptor 적용
+  
+# http://ondevstory.tistory.com/207
+  logging.level 수정
   
   
