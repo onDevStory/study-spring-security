@@ -6,4 +6,11 @@
 # AuthenticationEntryPoint
   미인증 상태에서 .anyRequest().authenticated() 에 해당하는 URL 호출 시,
   /login 화면으로 redirect 되던 것을 401 에러코드를 던지는 것으로 변경.
+
+# http://ondevstory.tistory.com/206
+  HandlerInterceptor 적용
+  
+# http://ondevstory.tistory.com/207
+  logging.level 수정
+  
   
