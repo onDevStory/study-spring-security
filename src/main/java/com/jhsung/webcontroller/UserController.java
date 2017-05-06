@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jhsung.common.exception.CustomException;
 import com.jhsung.entity.User;
 import com.jhsung.entity.dto.UserDto;
 import com.jhsung.repository.UserRepository;
@@ -36,7 +35,7 @@ public class UserController {
 	@PostMapping(value = "/isAvailableEmail")
 	public boolean isAvailableEmail(@RequestBody @Valid UserDto.Email dto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			// throw new CustomException();
+			throw new CustomException("validation error");
 		}
 		return userRepository.findByEmail(dto.getEmail()).isEmpty();
 	}
@@ -44,9 +43,9 @@ public class UserController {
 	@PostMapping(value = "/users")
 	public String saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			// throw new CustomException();
+			throw new CustomException("validation error");
 		}
-		// email 중복 시, ConstraintViolationException 500 Error 처리
+		// TODO email 중복 시, ConstraintViolationException 500 Error 처리
 		return userService.saveUser(modelMapper.map(dto, User.class)) != null ? "success" : "fail";
 	}
 
@@ -64,7 +63,7 @@ public class UserController {
 	 */
 	@GetMapping(value = "/users/{columnName}")
 	public List<User> findColumnEqualValue(@PathVariable("columnName") String columnName, @RequestParam String q) {
-		// security & sorting
+		// TODO except password & sorting
 		return userService.findColumnEqualValue(columnName, q);
 	}
 
