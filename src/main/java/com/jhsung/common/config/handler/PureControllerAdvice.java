@@ -1,4 +1,4 @@
-package com.jhsung.common.exception;
+package com.jhsung.common.config.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice("com.jhsung")
-public class GlobalControllerHandler {
+public class PureControllerAdvice {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request) {

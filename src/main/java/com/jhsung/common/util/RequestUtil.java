@@ -4,10 +4,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 
-@Component
+import com.jhsung.common.exception.CustomException;
+
 public class RequestUtil {
 
 	private static final String GET = "GET";
@@ -27,6 +28,12 @@ public class RequestUtil {
 
 	public static String getPostParam(HttpServletRequest request) {
 		return request.getAttribute(REQ_ATTR_PARAM_KEY).toString();
+	}
+
+	public static void checkBindingResult(BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new CustomException("validation error");
+		}
 	}
 
 }

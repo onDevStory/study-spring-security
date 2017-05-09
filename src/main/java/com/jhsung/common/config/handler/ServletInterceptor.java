@@ -1,4 +1,4 @@
-package com.jhsung.common.config.interceptor;
+package com.jhsung.common.config.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class GlobalHttpInterceptor extends HandlerInterceptorAdapter {
+public class ServletInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
