@@ -41,13 +41,12 @@ public class UserController {
 	@PostMapping("/users")
 	public String saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
 		RequestUtil.checkBindingResult(bindingResult);
-		// TODO email 중복 시, ConstraintViolationException 500 Error 처리
 		return userService.saveUser(modelMapper.map(dto, User.class)) != null ? "success" : "fail";
 	}
 
 	@GetMapping("/users")
 	public List<User> findAll() {
-		// security & sorting
+		// TODO security & sorting
 		return userRepository.findAll();
 	}
 

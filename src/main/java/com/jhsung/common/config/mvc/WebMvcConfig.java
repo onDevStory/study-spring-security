@@ -5,17 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.jhsung.common.config.handler.ServletInterceptor;
+import com.jhsung.common.config.handler.ServletHandlerInterceptor;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
-	private ServletInterceptor globalHttpInterceptor;
+	private ServletHandlerInterceptor servletHandlerInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(globalHttpInterceptor)
+		registry.addInterceptor(servletHandlerInterceptor)
 				.addPathPatterns("/**");
 	}
 

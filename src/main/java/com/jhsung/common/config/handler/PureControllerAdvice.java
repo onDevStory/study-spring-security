@@ -21,6 +21,7 @@ public class PureControllerAdvice {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request) {
+		log.debug("~~~PureControllerAdvice initBinder");
 		RequestUtil.setParameter(binder, request);
 	}
 
@@ -28,7 +29,8 @@ public class PureControllerAdvice {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public ResponseFormat handleCustomException(HttpServletRequest request, Exception e) {
-		exceptionLog(request, e);
+		// TODO exceptionLog(request, e);
+		log.debug("~~~PureControllerAdvice handleCustomException");
 		return new ResponseFormat(request, e);
 	}
 

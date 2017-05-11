@@ -29,7 +29,6 @@ public enum UserColumn {
 		if (userColumn != null) {
 			return userColumn;
 		}
-		// TODO ExceptionHandler 처리
 		throw new IllegalArgumentException(String.format("enumType<%s> is not exist.", columnName));
 	}
 }

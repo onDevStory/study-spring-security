@@ -11,23 +11,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class ServletInterceptor extends HandlerInterceptorAdapter {
+public class ServletHandlerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.debug("preHandle in HandlerInterceptor ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-		log.debug("request.getRequestURL() : {}", request.getRequestURL().toString());
-		log.debug("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		log.debug("~~~ServletHandlerInterceptor preHandle");
+		// TODO 여기서 어떠한 처리가 가능한데...
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.debug("postHandle in HandlerInterceptor ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-");
-		log.debug("response.getContentType : {}", response.getContentType());
-		log.debug("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		log.debug("~~~ServletHandlerInterceptor postHandle");
 	}
 
 }

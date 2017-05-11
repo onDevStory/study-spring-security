@@ -10,6 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.jhsung.common.ResponseFormat;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
@@ -27,7 +30,7 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
 			ServerHttpResponse response) {
-		System.out.println("~~~ResponseBodyHandler beforeBodyWrite");
+		log.debug("~~~ResponseBodyHandler beforeBodyWrite");
 		return new ResponseFormat(body);
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.jhsung.common.exception.CustomException;
 import com.jhsung.entity.User;
 import com.jhsung.entity.columns.UserColumn;
 import com.jhsung.repository.UserRepository;
@@ -21,6 +22,9 @@ public class UserService {
 	UserRepository userRepository;
 
 	public User saveUser(User user) {
+		if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
+			throw new CustomException("Email is already exist!");
+		}
 		user.setPassword(getEncodedPassword(user.getPassword()));
 		return userRepository.save(user);
 	}
