@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.jhsung.common.exception.CustomException;
@@ -13,6 +14,7 @@ public class RequestUtil {
 
 	private static final String GET = "GET";
 	private static final String REQ_ATTR_PARAM_KEY = "bindingObject";
+	private static final String FORMAT_BINDING_ERROR = "Invalid values - %s";
 
 	public static void setParameter(WebDataBinder binder, HttpServletRequest request) {
 		request.setAttribute(REQ_ATTR_PARAM_KEY, binder.getTarget());
@@ -32,7 +34,14 @@ public class RequestUtil {
 
 	public static void checkBindingResult(BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			throw new CustomException("validation error");
+			StringBuilder sb = new StringBuilder();
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				sb.append(fieldError.getField() + ", ");
+			}
+			if (sb.length() != 0) {
+				sb.delete(sb.lastIndexOf(", "), sb.length());
+			}
+			throw new CustomException(String.format(FORMAT_BINDING_ERROR, sb.toString()));
 		}
 	}
 
