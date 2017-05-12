@@ -3,6 +3,8 @@ package com.jhsung.entity.columns;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.jhsung.common.exception.CustomException;
+import com.jhsung.common.exception.ExceptionMsg;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +28,9 @@ public enum UserColumn {
 	// eMap 에서 columnName 으로 UserColumn 구하기
 	public static UserColumn lookup(final String columnName) {
 		final UserColumn userColumn = eMap.get(columnName);
-		if (userColumn != null) {
-			return userColumn;
+		if (userColumn == null) {
+			throw new CustomException(ExceptionMsg.INVALID_URI);
 		}
-		throw new IllegalArgumentException(String.format("enumType<%s> is not exist.", columnName));
+		return userColumn;
 	}
 }

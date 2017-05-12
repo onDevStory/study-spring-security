@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.jhsung.common.exception.CustomException;
+import com.jhsung.common.exception.ExceptionMsg;
 import com.jhsung.entity.User;
 import com.jhsung.entity.columns.UserColumn;
 import com.jhsung.repository.UserRepository;
@@ -23,7 +24,7 @@ public class UserService {
 
 	public User saveUser(User user) {
 		if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
-			throw new CustomException("Email is already exist!");
+			throw new CustomException(ExceptionMsg.ALREADY_JOIN_EMAIL);
 		}
 		user.setPassword(getEncodedPassword(user.getPassword()));
 		return userRepository.save(user);

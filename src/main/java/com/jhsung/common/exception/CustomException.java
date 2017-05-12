@@ -1,14 +1,21 @@
 package com.jhsung.common.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
 @EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
 public class CustomException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private String message;
+
+	public CustomException(String message) {
+		this.message = message;
+	}
+
+	public CustomException(ExceptionMsg exceptionMsg) {
+		this(exceptionMsg.getExceptionMsg());
+	}
+
 }

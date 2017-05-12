@@ -9,12 +9,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.jhsung.common.exception.CustomException;
+import com.jhsung.common.exception.ExceptionMsg;
 
 public class RequestUtil {
 
 	private static final String GET = "GET";
 	private static final String REQ_ATTR_PARAM_KEY = "bindingObject";
-	private static final String FORMAT_BINDING_ERROR = "Invalid values - %s";
+	private static final String FORMAT_INVALID_EX = ExceptionMsg.INVALID_PARAMETER.getExceptionMsg() + " - %s";
 
 	public static void setParameter(WebDataBinder binder, HttpServletRequest request) {
 		request.setAttribute(REQ_ATTR_PARAM_KEY, binder.getTarget());
@@ -41,7 +42,7 @@ public class RequestUtil {
 			if (sb.length() != 0) {
 				sb.delete(sb.lastIndexOf(", "), sb.length());
 			}
-			throw new CustomException(String.format(FORMAT_BINDING_ERROR, sb.toString()));
+			throw new CustomException(String.format(FORMAT_INVALID_EX, sb.toString()));
 		}
 	}
 
