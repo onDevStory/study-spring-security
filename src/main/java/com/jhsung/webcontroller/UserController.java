@@ -37,8 +37,8 @@ public class UserController {
 	}
 
 	@PostMapping("/users")
-	public String saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
-		return userService.saveUser(modelMapper.map(dto, User.class)) != null ? "success" : "fail";
+	public void saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
+		userService.saveUser(modelMapper.map(dto, User.class));
 	}
 
 	@GetMapping("/users")

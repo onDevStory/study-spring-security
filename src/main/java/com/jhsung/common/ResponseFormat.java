@@ -8,20 +8,21 @@ import lombok.Data;
 
 @Data
 public class ResponseFormat {
-	private Boolean error;
+	private Boolean success;
+	private Object response;
 	private String errorMsg;
-	private Object result;
 	private DebugInfo debugInfo;
 
 	// Success
-	public ResponseFormat(Object result) {
-		this.result = result;
+	public ResponseFormat(Object response) {
+		this.success = true;
+		this.response = response;
 	}
 
 	// Exception
 	public ResponseFormat(HttpServletRequest request, Exception e) {
-		this.error = true;
-		this.errorMsg = "???";
+		this.success = false;
+		this.errorMsg = e.getMessage();
 		// TODO check authority of debugging
 		this.debugInfo = true ? new DebugInfo(request, e) : null;
 	}

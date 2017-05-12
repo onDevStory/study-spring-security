@@ -57,4 +57,11 @@
   https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte:fdl:aop:aspectj
   http://jsonobject.tistory.com/247
   
+# RestController 리턴 타입이 String 일 경우,
+  StringHttpMessageConverter 가 변환을 담당.
+  오류 발생 (ClassCastException : com.jhsung.common.ResponseFormat cannot be cast to java.lang.String)
+  
+  data 조회가 아닌 단순 저장, 수정, 삭제 처리는 리턴타입을 void 로 하자.
+  프론트에서의 판단은 ResponseFormat success 값으로 하자.  
+  
   
