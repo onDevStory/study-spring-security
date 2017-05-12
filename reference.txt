@@ -50,4 +50,11 @@
   
   D드라이브에 로그 폴더가 생성됨.
   
+# AOP 적용
+  https://blog.outsider.ne.kr/843
+  https://github.com/jojoldu/blog-code/tree/master/aop
+  https://www.mkyong.com/spring3/spring-aop-aspectj-annotation-example/
+  https://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte:fdl:aop:aspectj
+  http://jsonobject.tistory.com/247
+  
   

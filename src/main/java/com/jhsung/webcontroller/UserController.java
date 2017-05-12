@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jhsung.common.util.RequestUtil;
 import com.jhsung.entity.User;
 import com.jhsung.entity.dto.UserDto;
 import com.jhsung.repository.UserRepository;
@@ -34,13 +33,11 @@ public class UserController {
 
 	@PostMapping("/isAvailableEmail")
 	public boolean isAvailableEmail(@RequestBody @Valid UserDto.Email dto, BindingResult bindingResult) {
-		RequestUtil.checkBindingResult(bindingResult);
 		return userRepository.findByEmail(dto.getEmail()).isEmpty();
 	}
 
 	@PostMapping("/users")
 	public String saveUser(@RequestBody @Valid UserDto.ForCreate dto, BindingResult bindingResult) {
-		RequestUtil.checkBindingResult(bindingResult);
 		return userService.saveUser(modelMapper.map(dto, User.class)) != null ? "success" : "fail";
 	}
 
