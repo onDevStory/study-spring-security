@@ -23,7 +23,7 @@ public class UserService {
 	UserRepository userRepository;
 
 	public User saveUser(User user) {
-		if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
+		if (userRepository.findByEmail(user.getEmail()) != null) {
 			throw new CustomException(ExceptionMsg.ALREADY_JOIN_EMAIL);
 		}
 		user.setPassword(getEncodedPassword(user.getPassword()));
@@ -33,9 +33,9 @@ public class UserService {
 	public List<User> findColumnEqualValue(String columnName, String q) {
 		switch (UserColumn.lookup(columnName)) {
 		case ID:
-			return userRepository.findById(Long.parseLong(q));
+			return Lists.newArrayList(userRepository.findById(Long.parseLong(q)));
 		case EMAIL:
-			return userRepository.findByEmail(q);
+			return Lists.newArrayList(userRepository.findByEmail(q));
 		case USER_NAME:
 			return userRepository.findByUserName(q);
 		case VERIFIED:

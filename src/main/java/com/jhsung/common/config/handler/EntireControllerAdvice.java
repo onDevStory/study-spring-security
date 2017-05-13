@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice("com.jhsung")
-public class PureControllerAdvice {
+public class EntireControllerAdvice {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder, HttpServletRequest request) {

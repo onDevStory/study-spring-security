@@ -33,7 +33,7 @@ public class UserController {
 
 	@PostMapping("/isAvailableEmail")
 	public boolean isAvailableEmail(@RequestBody @Valid UserDto.Email dto, BindingResult bindingResult) {
-		return userRepository.findByEmail(dto.getEmail()).isEmpty();
+		return (userRepository.findByEmail(dto.getEmail()) == null);
 	}
 
 	@PostMapping("/users")
