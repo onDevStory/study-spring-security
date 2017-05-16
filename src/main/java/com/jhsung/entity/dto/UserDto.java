@@ -19,14 +19,6 @@ public class UserDto {
 	}
 
 	@Data
-	public static class Password {
-		@NotBlank
-		@Size(min = 6, max = 15)
-		// validation
-		private String password;
-	}
-
-	@Data
 	public static class ForCreate {
 		@NotBlank
 		@Pattern(regexp = "^[a-z0-9_+.-]+@+([a-z0-9-]+\\.)+[a-z0-9]{2,4}$")
@@ -40,6 +32,12 @@ public class UserDto {
 		@NotBlank
 		// validation
 		private String userName;
+	}
+	
+	@Data
+	public static class SignIn {
+		private String email;
+		private String password;
 	}
 
 	@Data

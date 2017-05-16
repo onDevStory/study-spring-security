@@ -1,9 +1,11 @@
 package com.jhsung.common.config.security;
 
 import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -26,6 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated();
 		
 		httpSecurity
+				// We filter the api/login requests
+				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				
+				// And filter other requests to check the presence of JWT in header
+				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+			
+		
+		httpSecurity
 			// 보안 페이지 요청 시, Login 페이지로 Redirect
 			// 컨트롤러 매핑을 하지 않으면 기본 제공되는 로그인 페이지가 뜬다.
 			.formLogin()
@@ -42,6 +52,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.exceptionHandling()
 				.authenticationEntryPoint(new Http401AuthenticationEntryPoint(null));
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// Create a default account
+		auth.inMemoryAuthentication()
+			.withUser("admin")
+			.password("password")
+			.roles("ADMIN");
 	}
 
 }

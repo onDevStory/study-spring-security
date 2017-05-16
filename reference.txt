@@ -65,3 +65,7 @@
   프론트에서의 판단은 ResponseFormat success 값으로 하자.  
   
   
+# security-jwt-1 
+  https://auth0.com/blog/securing-spring-boot-with-jwts/
+  
+  
