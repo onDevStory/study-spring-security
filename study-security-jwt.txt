@@ -1,0 +1,111 @@
+# .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+  기본적인 Spring Security 필터에서는 session 정보를 불러와 해당 권한을 가지고 인증을 한다.
+  하지만 jwt 방식에서는 session 이 필요하지 않다.
+  
+# http.formLogin()
+  http.formLogin() 을 이용하면 기본적으로  를 구현한
+  UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter 를 이용하게 된다.
+  뒤에서 AbstractAuthenticationProcessingFilter 을 상속받는 Filter 2개를 추가해줄 것이다.
+  
+  즉, 뒤에서 추가해줄 ?? extends AbstractAuthenticationProcessingFilter 을 이용하기 위해서
+  http.formLogin() 을 해준 것이다.
+  
+  http.formLogin() 을 생략하면 LogoutFilter 후에 RequestCacheAwareFilter 를 바로 실행한다.
+
+# ExceptionTranslationFilter Exception 발생 시, handleSpringSecurityException 메소드 소스
+  
+  if (exception instanceof AuthenticationException) {
+			sendStartAuthentication(request, response, chain, (AuthenticationException) exception);
+	}
+
+	else if (exception instanceof AccessDeniedException) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		if (authenticationTrustResolver.isAnonymous(authentication) || authenticationTrustResolver.isRememberMe(authentication)) {
+			// log : Access is denied (user is anonymous)              ; redirecting to authentication entry point
+			// log : Access is denied (user is not fully authenticated); redirecting to authentication entry point
+
+			sendStartAuthentication(request, response, chain, 
+			  new InsufficientAuthenticationException("Full authentication is required to access this resource"));
+		}
+		else {
+			// log : Access is denied (user is not anonymous); delegating to AccessDeniedHandler
+
+			accessDeniedHandler.handle(request, response, (AccessDeniedException) exception);
+		}
+	}
+
+# 우선 알아야 할 것(위 소스 참고)
+  디폴트 AuthenticationEntryPoint == LoginUrlAuthenticationEntryPoint
+    LoginUrlAuthenticationEntryPoint 은 로그인 화면으로 리다이렉트 한다.
+    리다이렉트 하지 않고 ResponseFormat 을 보내기 위해 아래와 같이 한다.
+
+# httpSecurity
+			.exceptionHandling()
+				.authenticationEntryPoint(new AccessDeniedEntryPoint());
+  
+# TEST CASE
+  접속 URL - /isAvailableEmail
+  RESULT   - ResponseFormat
+
+  FLOW
+    position 1  of 12 in additional filter chain           : WebAsyncManagerIntegrationFilter
+    position 2  of 12 in additional filter chain           : SecurityContextPersistenceFilter
+    position 3  of 12 in additional filter chain           : HeaderWriterFilter
+    position 4  of 12 in additional filter chain           : LogoutFilter
+    position 5  of 12 in additional filter chain           : UsernamePasswordAuthenticationFilter
+    position 6  of 12 in additional filter chain           : DefaultLoginPageGeneratingFilter
+    position 7  of 12 in additional filter chain           : RequestCacheAwareFilter
+    position 8  of 12 in additional filter chain           : SecurityContextHolderAwareRequestFilter
+    position 9  of 12 in additional filter chain           : AnonymousAuthenticationFilter
+    position 10 of 12 in additional filter chain           : SessionManagementFilter
+    position 11 of 12 in additional filter chain           : ExceptionTranslationFilter
+    position 12 of 12 in additional filter chain           : FilterSecurityInterceptor (extends AbstractSecurityInterceptor): Authorization successful
+                                                             앞에 지나온 모든 필터들의 정보를 토대로 최종 결정을 내린다.
+                                                             AccessDecisionManager 로 인증에 대한 결정권을 위임함으로써 인증허가 및  접근제어 결정을 용이하게 한다.
+                                                             super.beforeInvocation(fi);
+    o.s.s.a.i.AbstractSecurityInterceptor.beforeInvocation : this.accessDecisionManager.decide(authenticated, object, attributes); // accessDecisionManager == o.s.s.a.vote.AffirmativeBased
+    o.s.s.access.vote.AffirmativeBased.decide              : Voter: org.springframework.security.web.access.expression.WebExpressionVoter@7ffdf6c4, returned: 1 (AccessDecisionVoter.ACCESS_GRANTED)★★★
+    web.servlet.DispatcherServlet                          : DispatcherServlet with name 'dispatcherServlet' processing POST request for [/temp]
+    s.m.m.a.RequestMappingHandlerMapping                   : Looking up handler method for path /temp
+    c.c.h.ServletHandlerInterceptor                        : ~~~ServletHandlerInterceptor preHandle
+    c.c.handler.EntireControllerAdvice                     : ~~~PureControllerAdvice initBinder
+    c.c.aop.PackageAspectWebcontroller                     : ~~~Aop around - before proceed
+    hibernate.SQL                                          : 
+    c.c.aop.PackageAspectWebcontroller                     : ~~~Aop around - after proceed
+    c.c.handler.ResponseBodyHandler                        : ~~~ResponseBodyHandler beforeBodyWrite
+    a.RequestResponseBodyMethodProcessor                   : Written [ResponseFormat(success=true, response=true, errorMsg=null, debugInfo=null)] as "application/json"
+                                                             using [org.springframework.http.converter.json.MappingJackson2HttpMessageConverter@28f90752]
+    c.c.h.ServletHandlerInterceptor                        : ~~~ServletHandlerInterceptor postHandle
+    web.servlet.DispatcherServlet                          : Successfully completed request
+    s.w.a.ExceptionTranslationFilter                       : Chain processed normally
+    w.c.SecurityContextPersistenceFilter                   : SecurityContextHolder now cleared, as request processing completed
+
+# TEST CASE
+  접속 URL - /temp (미존재)
+  EXPECT   - 404 NOT FOUND
+  RESULT   - redirect to /login
+
+  FLOW
+    position 1  of 12 in additional filter chain       : WebAsyncManagerIntegrationFilter
+    position 2  of 12 in additional filter chain       : SecurityContextPersistenceFilter
+    position 3  of 12 in additional filter chain       : HeaderWriterFilter
+    position 4  of 12 in additional filter chain       : LogoutFilter
+    position 5  of 12 in additional filter chain       : UsernamePasswordAuthenticationFilter
+    position 6  of 12 in additional filter chain       : DefaultLoginPageGeneratingFilter
+    position 7  of 12 in additional filter chain       : RequestCacheAwareFilter
+    position 8  of 12 in additional filter chain       : SecurityContextHolderAwareRequestFilter
+    position 9  of 12 in additional filter chain       : AnonymousAuthenticationFilter
+    position 10 of 12 in additional filter chain       : SessionManagementFilter
+    position 11 of 12 in additional filter chain       : ExceptionTranslationFilter
+    position 12 of 12 in additional filter chain       : FilterSecurityInterceptor (extends AbstractSecurityInterceptor)
+    o.s.s.access.vote.AffirmativeBased.decide          : Voter: org.springframework.security.web.access.expression.WebExpressionVoter@7ffdf6c4, returned: -1 (AccessDecisionVoter.ACCESS_DENIED)★★★
+                                                         throw new AccessDeniedException
+    o.s.s.w.a.ExceptionTranslationFilter               : Access is denied (user is anonymous); redirecting to authentication entry point★
+                                                         sendStartAuthentication()
+    ExceptionTranslationFilter.sendStartAuthentication : Calling Authentication entry point.
+                                                         authenticationEntryPoint.commence(request, response, reason);  // (interface) authenticationEntryPoint == o.s.s.w.a.LoginUrlAuthenticationEntryPoint (Impl)
+    o.s.s.w.a.LoginUrlAuthenticationEntryPoint.commence: redirectStrategy.sendRedirect(request, response, redirectUrl); // (interface) redirectStrategy == o.s.s.w.DefaultRedirectStrategy
+    o.s.s.w.DefaultRedirectStrategy.sendRedirect       : Redirecting to 'http://localhost:8082/login'
+                                                         response.sendRedirect(redirectUrl); // redirectUrl == http://localhost:8082/login
+  

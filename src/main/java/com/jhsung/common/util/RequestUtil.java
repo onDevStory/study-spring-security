@@ -15,6 +15,7 @@ public class RequestUtil {
 
 	private static final String GET = "GET";
 	private static final String REQ_ATTR_PARAM_KEY = "bindingObject";
+	private static final String REQ_ATTR_ERROR_KEY = "errorName";
 	private static final String FORMAT_INVALID_EX = ErrorName.INVALID_PARAM + " - %s";
 
 	public static void setParameter(WebDataBinder binder, HttpServletRequest request) {
@@ -46,4 +47,13 @@ public class RequestUtil {
 		}
 	}
 
+	public static void setErrorName(HttpServletRequest request, ErrorName errorName) {
+		request.setAttribute(REQ_ATTR_ERROR_KEY, errorName);
+	}
+
+	public static String getErrorName(HttpServletRequest request) {
+		ErrorName errorName = (ErrorName) request.getAttribute(REQ_ATTR_ERROR_KEY);
+		return errorName.name();
+	}
+	
 }
