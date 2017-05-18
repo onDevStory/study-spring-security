@@ -10,7 +10,7 @@ import lombok.Data;
 public class ResponseFormat {
 	private Boolean success;
 	private Object response;
-	private String errorMsg;
+	private String errorName;
 	private DebugInfo debugInfo;
 
 	// Success
@@ -22,7 +22,7 @@ public class ResponseFormat {
 	// Exception
 	public ResponseFormat(HttpServletRequest request, Exception e) {
 		this.success = false;
-		this.errorMsg = e.getMessage();
+		this.errorName = e.getMessage();
 		// TODO check authority of debugging
 		this.debugInfo = true ? new DebugInfo(request, e) : null;
 	}

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.jhsung.common.exception.CustomException;
-import com.jhsung.common.exception.ExceptionMsg;
+import com.jhsung.common.exception.ErrorName;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public enum UserColumn {
 	public static UserColumn lookup(final String columnName) {
 		final UserColumn userColumn = eMap.get(columnName);
 		if (userColumn == null) {
-			throw new CustomException(ExceptionMsg.INVALID_URI);
+			throw new CustomException(ErrorName.INVALID_URI);
 		}
 		return userColumn;
 	}

@@ -9,13 +9,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 
 import com.jhsung.common.exception.CustomException;
-import com.jhsung.common.exception.ExceptionMsg;
+import com.jhsung.common.exception.ErrorName;
 
 public class RequestUtil {
 
 	private static final String GET = "GET";
 	private static final String REQ_ATTR_PARAM_KEY = "bindingObject";
-	private static final String FORMAT_INVALID_EX = ExceptionMsg.INVALID_PARAMETER.getExceptionMsg() + " - %s";
+	private static final String FORMAT_INVALID_EX = ErrorName.INVALID_PARAM + " - %s";
 
 	public static void setParameter(WebDataBinder binder, HttpServletRequest request) {
 		request.setAttribute(REQ_ATTR_PARAM_KEY, binder.getTarget());
